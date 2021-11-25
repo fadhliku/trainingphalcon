@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  web:
+    container_name: webphalcon
+    #image: arraudy/fd-nginx-php74
+    image: sabrecode/nginxphp7phalcon4
+    ports:
+      - 1197:80
+    volumes:
+      - ./nginxconf/10-location-root.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-root.conf
+      - ./nginxconf/vhost.conf:/opt/docker/etc/nginx/vhost.conf
+      - .:/app
+  db:
+    container_name: dbphalcon
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - var-lib-mysql:/var/lib/mysql
+      #- ./docker.cnf:/etc/mysql/conf.d/docker.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=q
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+volumes:
+  var-lib-mysql:
